@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.5.2
+// @version    0.6
 // @description  marcar en rojo
 // @include      *
 // @updateURL    https://raw.github.com/paucapo/anti-AEDE/master/script.js
