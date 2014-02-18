@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name anti AEDE
 // @namespace http://www.meneame.net/
-// @version 0.3.2
+// @version 0.3.3
 // @description marcar en rojo
 // @include *
 // @updateURL http://raw.github.com/malaguer/anti-AEDE/master/script.js
 // @copyright Antonio Fernández Porrúa. Liberado bajo los términos de GPL
-// @require https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
 // ==/UserScript==
 
 var aede = [
