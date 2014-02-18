@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.3.1
+// @version    0.5
 // @description  marcar en rojo
 // @include      *
 // @updateURL userscripts.org/scripts/source/390065.user.js
@@ -96,7 +96,8 @@ var aede = [
 /(\/|\.)elmun\.do\//,
 ];
 
-$(document).load(function() {
+$(function() {
+   checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
 });
 
