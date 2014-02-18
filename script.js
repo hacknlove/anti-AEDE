@@ -96,10 +96,14 @@ var aede = [
 /(\/|\.)elmun\.do\//,
 ];
 
+$(document).load(function() {
+   setInterval(checkForAEDELinks, 2000);
+});
 
-$(function(){
+
+function checkForAEDELinks() {
    var domain = document.domain;
-   if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' ) {
+   if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' || domain== 'peta.meneame.net' || domain== 'e.meneame.net' ) {
       // Menéame
       $('span.showmytitle').each(function(){
          var thiss=this;
@@ -124,7 +128,7 @@ $(function(){
          });
       });
    } else if (domain == 'twitter.com' || domain == 'www.twitter.com') {
-      // Twitter
+      // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
       $('a.twitter-timeline-link').each(function(){
          var thiss=this;
          $.each(aede,function(i,regex){
@@ -135,7 +139,7 @@ $(function(){
          });
       });
    } else {
-      // Others
+      // Others by @paucapo
       $('a').each(function() {
          var link  = $(this);
          var href = link.attr('href');
@@ -148,4 +152,4 @@ $(function(){
         });
       });
    }
-});
+}
