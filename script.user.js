@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.6.1
+// @version    0.6.2
 // @description  marcar en rojo
 // @include      *
 // @updateURL    https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
