@@ -4,7 +4,7 @@
 // @version    0.5.2
 // @description  marcar en rojo
 // @include      *
-// @updateURL    https://raw.github.com/paucapo/anti-AEDE/master/script.js
+// @updateURL    https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
 // @copyright    Antonio Fernández Porrúa. Liberado bajo los términos de GPL  
 // ==/UserScript==
 
