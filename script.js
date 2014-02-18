@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.5.1
+// @version    0.5.0
 // @description  marcar en rojo
 // @include      *
-// @updateURL    https://raw.github.com/pykiss/anti-AEDE/master/script.js
+// @updateURL    https://github.com/paucapo/anti-AEDE/raw/master/script.js
 // @copyright    Antonio Fernández Porrúa. Liberado bajo los términos de GPL  
 // ==/UserScript==
 
@@ -102,7 +102,34 @@ var aede = [
 /(\/|\.)ultimahora\.es\//]
 ;
 
-$(function() {
+var $;
+
+// Add jQuery
+(function(){
+   if (typeof unsafeWindow.jQuery == 'undefined') {
+      var GM_Head = document.getElementsByTagName('head')[0] || document.documentElement,
+      GM_JQ = document.createElement('script');
+
+      GM_JQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js';
+      GM_JQ.type = 'text/javascript';
+      GM_JQ.async = true;
+
+      GM_Head.insertBefore(GM_JQ, GM_Head.firstChild);
+   }
+   GM_wait();
+})();
+
+// Check if jQuery's loaded
+function GM_wait() {
+   if (typeof unsafeWindow.jQuery == 'undefined') {
+      window.setTimeout(GM_wait, 100);
+   } else {
+      $ = unsafeWindow.jQuery.noConflict(true);
+      run_jQuery();
+   }
+}
+
+function run_jQuery() {
    checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
 
@@ -160,6 +187,6 @@ $(function() {
    }
 
 
-});
+}
 
 
