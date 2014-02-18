@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.6.4
+// @version    0.6.5
 // @description  marcar en rojo
 // @include      *
 // @updateURL    https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
@@ -11,7 +11,7 @@
 
    var $, jQuery;
 
-   check();
+   setTimeout(check, 500);
 
    function check() {
 
