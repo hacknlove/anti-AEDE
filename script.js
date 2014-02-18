@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.5.2
+// @version    0.6.1
 // @description  marcar en rojo
 // @include      *
 // @updateURL    https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
@@ -19,15 +19,15 @@ function check() {
         main();
     } else {
 
-    	var head = document.getElementsByTagName('head')[0];
-    	var jq = document.createElement('script');
+      var head = document.getElementsByTagName('head')[0];
+      var jq = document.createElement('script');
     
-    	jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
-    	jq.type = 'text/javascript';
+      jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
+      jq.type = 'text/javascript';
     
-    	head.insertBefore(jq, head.firstChild);
+      head.insertBefore(jq, head.firstChild);
 
-    	setTimeout(check, 500);
+      setTimeout(check, 500);
     }
 }
 
