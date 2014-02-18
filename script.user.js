@@ -5,6 +5,7 @@
 // @description marcar en rojo
 // @include *
 // @updateURL http://raw.github.com/malaguer/anti-AEDE/master/script.js
+// @downloadURL http://raw.github.com/malaguer/anti-AEDE/master/script.js
 // @copyright Antonio Fernández Porrúa. Liberado bajo los términos de GPL
 // ==/UserScript==
 
