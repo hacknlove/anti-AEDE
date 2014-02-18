@@ -4,8 +4,9 @@
 // @version    0.3.1
 // @description  marcar en rojo
 // @include      *
+// @updateURL userscripts.org/scripts/source/390065.user.js
 // @copyright  Antonio Fernández Porrúa. Liberado bajo los términos de GPL  
-// @require	   https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
+// @require    https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
 // ==/UserScript==
 
 var aede = [
@@ -98,7 +99,7 @@ var aede = [
 
 $(function(){
    var domain = document.domain;
-   if (domain == 'www.meneame.net') {
+   if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' ) {
       // Menéame
       $('span.showmytitle').each(function(){
          var thiss=this;
