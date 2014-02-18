@@ -19,15 +19,15 @@ function check() {
         main();
     } else {
 
-      var head = document.getElementsByTagName('head')[0];
-      var jq = document.createElement('script');
-    
-      jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
-      jq.type = 'text/javascript';
-    
-      head.insertBefore(jq, head.firstChild);
+        var head = document.getElementsByTagName('head')[0],
+            jq = document.createElement('script');
 
-      setTimeout(check, 500);
+        jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
+        jq.type = 'text/javascript';
+
+        head.insertBefore(jq, head.firstChild);
+
+        setTimeout(check, 500);
     }
 }
 
@@ -278,15 +278,16 @@ function main() {
        setInterval(checkForAEDELinks, 2000);
     
        function checkForAEDELinks() {
-          var domain = document.domain;
-          if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' || domain== 'peta.meneame.net' || domain== 'e.meneame.net' ) {
+          var domain = document.domain,
+              meneameDomains = ['www.meneame.net', 'deportes.meneame.net', 'peta.meneame.net', 'e.meneame.net'];
+          if ($.inArray(domain, meneameDomains) !== -1) {
 
              // Menéame
              $('span.showmytitle').each(function(){
-                var thiss=this;
+                var that = this;
                 $.each(aede,function(i,regex){
-                   if(regex.test(thiss.title)){
-                      $(thiss).parents('.news-summary').css({
+                   if(regex.test(that.title)){
+                      $(that).parents('.news-summary').css({
                         'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
                         'border-radius': '6px',
                         'margin-bottom': '5px'
@@ -296,23 +297,23 @@ function main() {
                 });
              });
              $('input#url').keypress(function(){
-                var thi$ = this;
+                var that = this;
                 $.each(aede,function(i,regex){
-                   if(regex.test(thi$.val ())){
-                      thi$.css('border', '2px solid red');
+                   if(regex.test(that.val ())){
+                      that.css('border', '2px solid red');
                       return false;
                    }
                 });
              });
 
-          } else if (domain == 'twitter.com' || domain == 'www.twitter.com') {
+          } else if (domain === 'twitter.com' || domain === 'www.twitter.com') {
 
              // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
              $('a.twitter-timeline-link').each(function(){
-                var thiss=this;
+                var that = this;
                 $.each(aede,function(i,regex){
-                   if(regex.test(thiss.title)){
-                      $(thiss).parents('.js-tweet-text').css('background', 'rgba(255,0,0,0.5)');
+                   if(regex.test(that.title)){
+                      $(that).parents('.js-tweet-text').css('background', 'rgba(255,0,0,0.5)');
                       return false;
                    }
                 });
@@ -322,9 +323,10 @@ function main() {
 
              // Others by @paucapo
              $('a').each(function() {
-                var link  = $(this);
-                var href = link.attr('href');
-                var text = link.text();
+                var link  = $(this),
+                    href = link.attr('href'),
+                    text = link.text();
+
                 $.each(aede,function(i,regex){
                    if(regex.test(href) || regex.test(text)) {
                       link.css('background', 'rgba(255,0,0,0.5)').css('color', 'white');
