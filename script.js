@@ -99,58 +99,61 @@ var aede = [
 $(function() {
    checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
+
+   function checkForAEDELinks() {
+      var domain = document.domain;
+      if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' || domain== 'peta.meneame.net' || domain== 'e.meneame.net' ) {
+         // Menéame
+         $('span.showmytitle').each(function(){
+            var thiss=this;
+            $.each(aede,function(i,regex){
+               if(regex.test(thiss.title)){
+                  $(thiss).parents('.news-summary').css({
+                    'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
+                    'border-radius': '6px',
+                    'margin-bottom': '5px'
+                  });
+                  return false;
+               }
+            });
+         });
+         $('input#url').keypress(function(){
+            var thi$ = this;
+            $.each(aede,function(i,regex){
+               if(regex.test(thi$.val ())){
+                  thi$.css('border', '2px solid red');
+                  return false;
+               }
+            });
+         });
+      } else if (domain == 'twitter.com' || domain == 'www.twitter.com') {
+         // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
+         $('a.twitter-timeline-link').each(function(){
+            var thiss=this;
+            $.each(aede,function(i,regex){
+               if(regex.test(thiss.title)){
+                  $(thiss).parents('.js-tweet-text').css('background', 'rgba(255,0,0,0.5)');
+                  return false;
+               }
+            });
+         });
+      } else {
+         // Others by @paucapo
+         $('a').each(function() {
+            var link  = $(this);
+            var href = link.attr('href');
+            var text = link.text();
+            $.each(aede,function(i,regex){
+               if(regex.test(href) || regex.test(text)) {
+                  link.css('background', 'rgba(255,0,0,0.5)').css('color', 'white');
+                  return false;
+               }
+           });
+         });
+      }
+   }
+
+
 });
 
 
-function checkForAEDELinks() {
-   var domain = document.domain;
-   if (domain == 'www.meneame.net' || domain== 'deportes.meneame.net' || domain== 'peta.meneame.net' || domain== 'e.meneame.net' ) {
-      // Menéame
-      $('span.showmytitle').each(function(){
-         var thiss=this;
-         $.each(aede,function(i,regex){
-            if(regex.test(thiss.title)){
-               $(thiss).parents('.news-summary').css({
-                 'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
-                 'border-radius': '6px',
-                 'margin-bottom': '5px'
-               });
-               return false;
-            }
-         });
-      });
-      $('input#url').keypress(function(){
-         var thi$ = this;
-         $.each(aede,function(i,regex){
-            if(regex.test(thi$.val ())){
-               thi$.css('border', '2px solid red');
-               return false;
-            }
-         });
-      });
-   } else if (domain == 'twitter.com' || domain == 'www.twitter.com') {
-      // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
-      $('a.twitter-timeline-link').each(function(){
-         var thiss=this;
-         $.each(aede,function(i,regex){
-            if(regex.test(thiss.title)){
-               $(thiss).parents('.js-tweet-text').css('background', 'rgba(255,0,0,0.5)');
-               return false;
-            }
-         });
-      });
-   } else {
-      // Others by @paucapo
-      $('a').each(function() {
-         var link  = $(this);
-         var href = link.attr('href');
-         var text = link.text();
-         $.each(aede,function(i,regex){
-            if(regex.test(href) || regex.test(text)) {
-               link.css('background', 'rgba(255,0,0,0.5)').css('color', 'white');
-               return false;
-            }
-        });
-      });
-   }
-}
