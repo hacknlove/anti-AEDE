@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name      anti AEDE
 // @namespace  http://www.meneame.net/
-// @version    0.6
+// @version    0.6.1
 // @description  marcar en rojo
 // @include      *
-// @updateURL    https://raw.github.com/paucapo/anti-AEDE/master/script.js
+// @updateURL    https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
 // @copyright    Antonio Fernández Porrúa. Liberado bajo los términos de GPL  
 // ==/UserScript==
 
