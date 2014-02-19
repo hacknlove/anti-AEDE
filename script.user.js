@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     0.6
+// @version     0.7.1
 // @description  marcar en rojo
 // @include     *
-// @updateURL   https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
+// @updateURL   https://https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
 // @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
-// @grant      GM_log
+// @grant       GM_getValue
+// @grant 	    GM_setValue
+// @grant 	    GM_deleteValue
+// @grant 	    GM_listValues
 // ==/UserScript==
-
-
 $(function () {
 
    var aede = [
@@ -250,55 +251,69 @@ $(function () {
       'wradio690.com',
 
    ],
-      tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
 
-      meneame = function(){
+      meneame = function () {
          // Menéame
-         $('span.showmytitle').each(function (i) {
+         $('span.showmytitle').not('.aede-on').each(function (i) {
             var title = this.title,
                element = $(this).parents('.news-body');
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
          $('input#url').bind('input', function () {
             var that = $(this);
-            if(isAEDE(that.val())){
+            if (isAEDE(that.val())) {
                that.css('border', '2px solid red');
-            }else{
+            } else {
                that.css('border', '1px solid #ddd');
             }
          });
-      
+
       },
-      twitter = function(){
+      twitter = function () {
          // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
-         $('a.twitter-timeline-link').each(function (i) {
+         $('a.twitter-timeline-link').not('.aede-on').each(function (i) {
             var title = this.title,
                element = $(this).parents('.stream-item');
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
       },
-      facebook = function(){
-         $('div.fsm').each(function (i) {
+      facebook = function () {
+         $('div.fsm').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
-         $('.userContent a').each(function (i) {
+         $('.userContent a').not('.aede-on').each(function (i) {
             var title = $(this).attr('href'),
                element = $(this);
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
       },
-      others = function(){
+      others = function () {
          // Others by @paucapo
-         $('a').each(function (i) {
+         $('a').not('.aede-on').each(function (i) {
             var element = $(this),
                href = element.attr('href');
             preCheckAEDE(element, href, i);
+            $(this).addClass('aede-on');
          });
       },
 
       checkForAEDELinks = function () {
+         if (domain() == 'meneame.net' && GM_getValue('meneame') === true) {
+            meneame();
+         } else if (domain() == 'twitter.com' && GM_getValue('twitter') === true) {
+            twitter();
+         } else if (domain() == 'facebook.com' && GM_getValue('facebook') === true) {
+            facebook();
+         } else if (GM_getValue('others') === true) {
+            others();
+         }
+         /*
          switch(domain()){
             case 'meneame.net':
                meneame();
@@ -313,19 +328,20 @@ $(function () {
                others();
             break;
          }
+         */
       },
-      preCheckAEDE = function(element, url, i) {
-         if(url === undefined){
+      preCheckAEDE = function (element, url, i) {
+         if (url === undefined) {
             return;
          }
          setTimeout(function () {
             checkAEDE(element, url);
          }, i * 10);
       },
-      checkAEDE = function(element, link) {
+      checkAEDE = function (element, link) {
          if (isAEDE(link)) {
             element.css({
-               'background-color': '#ffe9e9',
+               'background-color': GM_getValue('background'),
             })
             /*.css({
                    'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
@@ -338,14 +354,14 @@ $(function () {
       showTooltip = function () {
          tooltip.show();
       },
-      hideTooltip = function() {
+      hideTooltip = function () {
          tooltip.hide();
       },
       domain = function () {
          var parts = document.domain.split('.');
          return parts.slice(-2).join('.');
       },
-      isAEDE = function(link) {
+      isAEDE = function (link) {
          var is = false;
          $.each(aede, function (i, a) {
             if (link.indexOf(a) === 0 || link.indexOf('.' + a) >= 0 || link.indexOf('://' + a) >= 0) {
@@ -357,13 +373,81 @@ $(function () {
       };
 
 
+   aedeConfig = function () {
+      $('#aede_config').remove();
+
+      var config = '<div id="aede_config">';
+      config += '<h1>Configuración</h1>';
+
+      config += '<h2>General</h2>';
+      config += '<p><label for="aede_background">Color de fondo:</label> <input type="text" id="aede_background" value="' + GM_getValue('background') + '"></p>';
+      config += '<p><label for="aede_tooltip_background">Color de fondo del tooltip:</label> <input type="text" id="aede_tooltip_background" value="' + GM_getValue('tooltip_background') + '"></p>';
+      config += '<p><label for="aede_toltip_text">Color del texto del tooltip:</label> <input type="text" id="aede_tooltip_text" value="' + GM_getValue('tooltip_text') + '"></p>';
+
+      config += '<h2>Módulos</h2>';
+      config += '<ul>';
+      config += '<li><input type="checkbox" id="aede_meneame"' + (GM_getValue('meneame') === true ? 'checked' : '') + '> <label for="aede_meneame">Menéame</label></li>';
+      config += '<li><input type="checkbox" id="aede_twitter"' + (GM_getValue('twitter') === true ? 'checked' : '') + '> <label for="aede_twitter">Twitter</label></li>';
+      config += '<li><input type="checkbox" id="aede_facebook"' + (GM_getValue('facebook') === true ? 'checked' : '') + '> <label for="aede_facebook">Facebook</label></li>';
+      config += '<li><input type="checkbox" id="aede_others"' + (GM_getValue('others') === true ? 'checked' : '') + '> <label for="aede_others">Todas las páginas</label></li>';
+      config += '</ul>';
+
+      config += '<p><input type="button" id="aede_save" value="Guardar"> <input type="button" id="aede_reset" value="Reset"></p>';
+
+      config += '<style type="text/css">#aede_config{border:1px solid #eee;padding:0 20px;background:#f9f9f9;}#aede_config p label{width:30%;display:block;float:left;}#aede_config ul{list-style:none;}</style>';
+
+      config += '</div>';
+
+
+
+      $('#readme .entry-content').prepend(config);
+
+
+      $('#aede_reset').on('click', function () {
+         resetConfig();
+      	 aedeConfig();
+      });
+      $('#aede_save').on('click', function () {
+         GM_setValue('background', $('#aede_background').val());
+         GM_setValue('tooltip_background', $('#aede_tooltip_background').val());
+         GM_setValue('tooltip_text', $('#aede_tooltip_text').val());
+
+         GM_setValue('meneame', $('#aede_meneame').is(':checked'));
+         GM_setValue('twitter', $('#aede_twitter').is(':checked'));
+         GM_setValue('facebook', $('#aede_facebook').is(':checked'));
+         GM_setValue('others', $('#aede_others').is(':checked'));
+      });
+   }
+
+   resetConfig = function () {
+      GM_setValue('background', '#ffe9e9');
+      GM_setValue('tooltip_background', '#d04544');
+      GM_setValue('tooltip_text', '#fff');
+      GM_setValue('meneame', true);
+      GM_setValue('twitter', true);
+      GM_setValue('facebook', true);
+      GM_setValue('others', true);
+   }
+
 
    checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
+
+   if (typeof GM_getValue('background') == 'undefined') {
+      resetConfig();
+   }
+
+   if (document.location.href == 'https://github.com/paucapo/anti-AEDE' || document.location.href == 'https://github.com/paucapo/anti-AEDE/') {
+      aedeConfig();
+   }
+
+   tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
 
    $('body').append(tooltip);
    $(document).mousemove(function (event) {
       tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
    });
+
+
 
 });
