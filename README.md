@@ -8,3 +8,4 @@ Si encontraís algun bug o teneís alguna propuesta podeis usar el apartado de I
 ### Instalación
 * Instalar [Greasemonkey para Firefox](https://addons.mozilla.org/es/firefox/addon/greasemonkey/) o [Tampermonkey para Chrome/Chromium](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 * Instalar el anti-AEDE desde [este enlace](https://github.com/pykiss/anti-AEDE/raw/master/script.user.js).
+
