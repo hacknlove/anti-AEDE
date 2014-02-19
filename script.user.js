@@ -304,13 +304,19 @@ $(function () {
          $('div.fsm').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
-            preCheckAEDE(element, title, i);
+            preCheckAEDE(element, title, i, {border:'3px solid '+GM_getValue('background')});
             $(this).addClass('aede-on');
          });
          $('.userContent a').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this);
-            preCheckAEDE(element, title, i);
+            preCheckAEDE(element, title, i, {border:'3px solid '+GM_getValue('background')});
+            $(this).addClass('aede-on');
+         });
+         $('div.userContentWrapper div.fcg').not('.aede-on').each(function (i) {
+            var title = $(this).text(),
+               element = $(this).parents('div.mvm');
+            preCheckAEDE(element, title, i, {display:'block'});
             $(this).addClass('aede-on');
          });
       },
@@ -362,24 +368,21 @@ $(function () {
          }
          */
       },
-      preCheckAEDE = function (element, url, i) {
+      preCheckAEDE = function (element, url, i, extraCss) {
          if (typeof url === undefined) {
             return;
          }
          setTimeout(function () {
-            checkAEDE(element, url);
+            checkAEDE(element, url, extraCss);
          }, i * 20);
       },
-      checkAEDE = function (element, link) {
+      checkAEDE = function (element, link, extraCss) {
+         css = {'background-color': GM_getValue('background')};
+         if (typeof extraCss != 'undefined') {
+            $.extend(css, extraCss);
+         }
          if (isAEDE(link)) {
-            element.css({
-               'background-color': GM_getValue('background'),
-            })
-            /*.css({
-                   'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
-                   'border-radius': '6px',
-                   'margin-bottom': '5px'
-                  })*/
+            element.css(css)
             .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
          }
       },
@@ -468,10 +471,10 @@ $(function () {
          });
       };
 
-
-   checkForAEDELinks();
-   setInterval(checkForAEDELinks, 2000);
-
+         $(document).ready(function(){
+   //checkForAEDELinks();
+   setInterval(checkForAEDELinks, 5000);
+         });
    checkConfig();
 
    if (document.location.href == 'https://github.com/paucapo/anti-AEDE' || document.location.href == 'https://github.com/paucapo/anti-AEDE/') {
