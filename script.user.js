@@ -450,7 +450,7 @@ $(function () {
                defaultValue: '',
                inline: false,
                letterCase: 'lowercase',
-               opacity: 1,
+               opacity: false,
                position: 'bottom left',
                theme: 'default'
             });
