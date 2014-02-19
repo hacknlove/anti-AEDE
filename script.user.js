@@ -317,7 +317,7 @@ $(function () {
      /^(http(s?):\/\/)?[^\/]*eleconomista\.es(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*elmundo\.es(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*elnortedecastilla\.es(\/|$)/,
-     /^(http(s?):\/\/)?[^\/]*elpais\.com\.uy(\/|$)/,
+//     /^(http(s?):\/\/)?[^\/]*elpais\.com\.uy(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*elmun\.do(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*elpais\.com(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*elpais\.es(\/|$)/,
@@ -488,6 +488,7 @@ $(function () {
 
    ],
       tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
+      firstime = true,
 
       meneame = function(){
          // Menéame
@@ -496,14 +497,17 @@ $(function () {
                element = $(this).parents('.news-body');
             preCheckAEDE(element, title, i);
          });
-         $('input#url').bind('input', function () {
-            var that = $(this);
-            if(isAEDE(that.val())){
-               that.css('border', '2px solid red');
-            }else{
-               that.css('border', '1px solid #ddd');
-            }
-         });
+         if(firstime){
+            $('input#url').bind('input', function () {
+              var that = $(this);
+              if(isAEDE(that.val())){
+                 that.css('border', '2px solid red');
+              }else{
+                 that.css('border', '1px solid #ddd');
+              }
+           });
+           firstime=false;
+         }
       
       },
       twitter = function(){
