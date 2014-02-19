@@ -4,11 +4,12 @@
 // @version     0.7.2
 // @description  marcar en rojo
 // @include     *
-// @updateURL   https://https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
+// @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
 // @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
+// @require     http://pykiss.github.io/anti-AEDE/javascripts/jquery.minicolors.js
 // @grant       GM_getValue
-// @grant 	    GM_setValue
+// @grant        GM_setValue
 // ==/UserScript==
 $(function () {
 
@@ -304,19 +305,25 @@ $(function () {
          $('div.fsm').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
-            preCheckAEDE(element, title, i, {border:'3px solid '+GM_getValue('background')});
+            preCheckAEDE(element, title, i, {
+               border: '3px solid ' + GM_getValue('background')
+            });
             $(this).addClass('aede-on');
          });
          $('.userContent a').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this);
-            preCheckAEDE(element, title, i, {border:'3px solid '+GM_getValue('background')});
+            preCheckAEDE(element, title, i, {
+               border: '3px solid ' + GM_getValue('background')
+            });
             $(this).addClass('aede-on');
          });
          $('div.userContentWrapper div.fcg').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('div.mvm');
-            preCheckAEDE(element, title, i, {display:'block'});
+            preCheckAEDE(element, title, i, {
+               display: 'block'
+            });
             $(this).addClass('aede-on');
          });
       },
@@ -332,7 +339,7 @@ $(function () {
       others = function () {
          // Others by @paucapo
          $('a').not('.aede-on').each(function (i) {
-            var title = $(this).attr('href')+' '+$(this).text(),
+            var title = $(this).attr('href') + ' ' + $(this).text(),
                element = $(this);
             preCheckAEDE(element, title, i);
             $(this).addClass('aede-on');
@@ -377,13 +384,15 @@ $(function () {
          }, i * 20);
       },
       checkAEDE = function (element, link, extraCss) {
-         css = {'background-color': GM_getValue('background')};
+         css = {
+            'background-color': GM_getValue('background')
+         };
          if (typeof extraCss != 'undefined') {
             $.extend(css, extraCss);
          }
          if (isAEDE(link)) {
             element.css(css)
-            .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
+               .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
          }
       },
       showTooltip = function () {
@@ -407,7 +416,6 @@ $(function () {
          return is;
       },
 
-
       aedeConfig = function () {
          $('#aede_config').remove();
 
@@ -416,7 +424,7 @@ $(function () {
 
          config += '<h2>General</h2>';
          $.each(defaults_general, function (key, value) {
-            config += '<p><label for="aede_' + key + '">' + labels[key] + ':</label> <input type="text" id="aede_' + key + '" value="' + GM_getValue(key) + '"></p>';
+            config += '<p><label for="aede_' + key + '">' + labels[key] + ':</label> <input type="text" id="aede_' + key + '" value="' + GM_getValue(key) + '" class="color"></p>';
          });
 
          config += '<h2>Módulos</h2>';
@@ -428,18 +436,31 @@ $(function () {
 
          config += '<p><input type="button" id="aede_save" value="Guardar"> <input type="button" id="aede_reset" value="Reset"></p>';
 
-         config += '<style type="text/css">#aede_config{border:1px solid #eee;padding:0 20px;background:#f9f9f9;}#aede_config p label{width:30%;display:block;float:left;}#aede_config ul{list-style:none;}</style>';
+         config += '<style type="text/css">#aede_config{border:1px solid #eee;padding:0 20px;background:#f9f9f9;}#aede_config p label{width:50%;display:block;float:left;}#aede_config ul{list-style:none;}</style>';
 
          config += '</div>';
 
 
 
-         $('#readme .entry-content').prepend(config);
+         $('#main_content').append(config);
+
+         $('input.color').each( function() {
+            $(this).minicolors({
+               control: 'hue',
+               defaultValue: '',
+               inline: false,
+               letterCase: 'lowercase',
+               opacity: 1,
+               position: 'bottom left',
+               theme: 'default'
+            });
+         });
 
 
          $('#aede_reset').on('click', function () {
             resetConfig();
             aedeConfig();
+            resultConfig('¡Configuración a valores por defecto!');
          });
          $('#aede_save').on('click', function () {
             $.each(defaults_general, function (key, value) {
@@ -448,9 +469,13 @@ $(function () {
             $.each(defaults_modules, function (key, value) {
                GM_setValue(key, $('#aede_' + key).is(':checked'));
             });
+            resultConfig('¡Configuración guardada!');
          });
       },
-
+      resultConfig = function(result) {
+         $('#aede_result').remove();
+         $('#main_content').append('<p id="aede_result">'+result+'</p>');
+      },
       resetConfig = function () {
          $.each(defaults_general, function (key, value) {
             GM_setValue(key, value);
@@ -471,13 +496,12 @@ $(function () {
          });
       };
 
-         $(document).ready(function(){
-   //checkForAEDELinks();
-   setInterval(checkForAEDELinks, 5000);
-         });
+   checkForAEDELinks();
+   setInterval(checkForAEDELinks, 2000);
+
    checkConfig();
 
-   if (document.location.href == 'https://github.com/paucapo/anti-AEDE' || document.location.href == 'https://github.com/paucapo/anti-AEDE/') {
+   if (document.location.href == 'http://pykiss.github.io/anti-AEDE/') {
       aedeConfig();
    }
 
