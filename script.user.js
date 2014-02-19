@@ -1,15 +1,18 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     0.8.2
+// @version     1.0.0
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
 // @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
-// @grant      GM_log
+// @require     http://pykiss.github.io/anti-AEDE/javascripts/jquery.minicolors.js
+// @grant       GM_getValue
+// @grant       GM_setValue
 // ==/UserScript==
 
+/* jshint -W030 */ // para poder usar a && b como atajo para if(a) b
 
 /*    para tener la lista de dominios limpia, por si se necesita en un futuro
       '11870.com',
@@ -250,6 +253,8 @@
 
 $(function () {
 
+   //¿Habría que crear las expresiones regulares a partir de la lista de dominios, en vez de hardcodearlas?
+   //Sería más cómodo añadir y eliminar dominios, así como modificar la expresión regular, y no aumentaría practicamente en nada el timpo de carga...
    var aede = [
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)11870\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)11824\.es(\/|$)/,
@@ -485,17 +490,39 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.co(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.mx(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio690\.com(\/|$)/,
-
    ],
-      tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
+   defaults_general = {
+      background: '#ffe9e9',
+      tooltip_background: '#d04544',
+      tooltip_text: '#fff',
+   },
+      defaults_modules = {
+         meneame: true,
+         twitter: true,
+         facebook: true,
+         google: false,
+         others: true,
+      },
+      labels = {
+         background: 'Color de fondo',
+         tooltip_background: 'Color de fondo del tooltip',
+         tooltip_text: 'Color del texto del tooltip',
+         meneame: 'Menéame',
+         twitter: 'Twitter',
+         facebook: 'Facebook',
+         google: 'Google (sólo funciona en google.es, se tiene que solucionar)',
+         others: 'Todas las páginas',
+      },
+      tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
       firstime = true,
 
-      meneame = function(){
+      meneame = function () {
          // Menéame
-         $('span.showmytitle').each(function (i) {
+         $('span.showmytitle').not('.aede-on').each(function (i) {
             var title = this.title,
                element = $(this).parents('.news-body');
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
          if(firstime){
             $('input#url').bind('input', function () {
@@ -510,84 +537,116 @@ $(function () {
          }
       
       },
-      twitter = function(){
+      twitter = function () {
          // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
-         $('a.twitter-timeline-link').each(function (i) {
+         $('a.twitter-timeline-link').not('.aede-on').each(function (i) {
             var title = this.title,
                element = $(this).parents('.stream-item');
             preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
       },
-      facebook = function(){
-         $('div.fsm').each(function (i) {
+      facebook = function () {
+         // Facebook by @paucapo
+         $('div.fsm').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
-            preCheckAEDE(element, title, i);
+            preCheckAEDE(element, title, i, {
+               border: '3px solid ' + GM_getValue('background')
+            });
+            $(this).addClass('aede-on');
          });
-         $('.userContent a').each(function (i) {
-            var title = $(this).attr('href'),
+         $('.userContent a').not('.aede-on').each(function (i) {
+            var title = $(this).text(),
                element = $(this);
-            preCheckAEDE(element, title, i);
+            preCheckAEDE(element, title, i, {
+               border: '3px solid ' + GM_getValue('background')
+            });
+            $(this).addClass('aede-on');
+         });
+         $('div.userContentWrapper div.fcg').not('.aede-on').each(function (i) {
+            var title = $(this).text(),
+               element = $(this).parents('div.mvm');
+            preCheckAEDE(element, title, i, {
+               display: 'block'
+            });
+            $(this).addClass('aede-on');
          });
       },
-      others = function(){
+      google = function () {
+         // Google by @paucapo
+         $('a').not('.aede-on').each(function (i) {
+            var title = $(this).attr('href'),
+               element = $(this).parents('li.g');
+            preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
+         });
+      },
+      others = function () {
          // Others by @paucapo
-         $('a').each(function (i) {
-            var element = $(this),
-               href = element.attr('href');
-            preCheckAEDE(element, href, i);
+         $('a').not('.aede-on').each(function (i) {
+            var title = $(this).attr('href') + ' ' + $(this).text(),
+               element = $(this);
+            preCheckAEDE(element, title, i);
+            $(this).addClass('aede-on');
          });
       },
 
       checkForAEDELinks = function () {
+      
          switch(domain()){
             case 'meneame.net':
-               meneame();
+               GM_getValue('meneame') && meneame();
             break;
             case 'twitter.com':
-               twitter();
+               GM_getValue('twitter') && twitter();
             break;
             case 'facebook.com':
-               facebook();
+               GM_getValue('facebook') && facebook();
             break;
             default:
-               others();
+               GM_getValue('others') && others();
             break;
          }
       },
-      preCheckAEDE = function(element, url, i) {
+      preCheckAEDE = function (element, url, i, extraCss) {
          if(url === undefined){
             return;
          }
          setTimeout(function () {
-            checkAEDE(element, url);
-         }, i * 10);
+            checkAEDE(element, url, extraCss);
+         }, i * 20);
       },
-      checkAEDE = function(element, link) {
+      checkAEDE = function (element, link, extraCss) {
+         css = {
+            'background-color': GM_getValue('background')
+         };
+         if (typeof extraCss != 'undefined') {
+            $.extend(css, extraCss);
+         }
          if (isAEDE(link)) {
-            element.css({
-               'background-color': '#ffe9e9',
-            })
+            element.css(css)
+               .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
+
+                  //Por petición de malaguer mantengo esto aquí, para que pueda descomentarlo y tener el estilo con degradado
             /*.css({
                    'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
                    'border-radius': '6px',
                    'margin-bottom': '5px'
                   })*/
-            .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
          }
       },
       showTooltip = function () {
          tooltip.show();
       },
-      hideTooltip = function() {
+      hideTooltip = function () {
          tooltip.hide();
       },
       domain = function () {
          var parts = document.domain.split('.');
          return parts.slice(-2).join('.');
       },
-      isAEDE = function(link) {
-      
+      isAEDE = function (link) {
          var is = false;
          $.each(aede, function (i, a) {
             if(a.test(link)){
@@ -596,16 +655,103 @@ $(function () {
             }
          });
          return is;
+      },
+
+      aedeConfig = function () {
+         $('#aede_config').remove();
+
+         var config = '<div id="aede_config">';
+         config += '<h1>Configuración</h1>';
+
+         config += '<h2>General</h2>';
+         $.each(defaults_general, function (key, value) {
+            config += '<p><label for="aede_' + key + '">' + labels[key] + ':</label> <input type="text" id="aede_' + key + '" value="' + GM_getValue(key) + '" class="color"></p>';
+         });
+
+         config += '<h2>Módulos</h2>';
+         config += '<ul>';
+         $.each(defaults_modules, function (key, value) {
+            config += '<li><input type="checkbox" id="aede_' + key + '" ' + (GM_getValue(key) === true ? 'checked' : '') + '> <label for="aede_' + key + '">' + labels[key] + '</label></li>';
+         });
+         config += '</ul>';
+
+         config += '<p><input type="button" id="aede_save" value="Guardar"> <input type="button" id="aede_reset" value="Reset"></p>';
+
+         config += '<style type="text/css">#aede_config{border:1px solid #eee;padding:0 20px;background:#f9f9f9;}#aede_config p label{width:50%;display:block;float:left;}#aede_config ul{list-style:none;}</style>';
+
+         config += '</div>';
+
+
+
+         $('#main_content').append(config);
+
+         $('input.color').each( function() {
+            $(this).minicolors({
+               control: 'hue',
+               defaultValue: '',
+               inline: false,
+               letterCase: 'lowercase',
+               opacity: false,
+               position: 'bottom left',
+               theme: 'default'
+            });
+         });
+
+
+         $('#aede_reset').on('click', function () {
+            resetConfig();
+            aedeConfig();
+            resultConfig('¡Configuración a valores por defecto!');
+         });
+         $('#aede_save').on('click', function () {
+            $.each(defaults_general, function (key, value) {
+               GM_setValue(key, $('#aede_' + key).val());
+            });
+            $.each(defaults_modules, function (key, value) {
+               GM_setValue(key, $('#aede_' + key).is(':checked'));
+            });
+            resultConfig('¡Configuración guardada!');
+         });
+      },
+      resultConfig = function(result) {
+         $('#aede_result').remove();
+         $('#main_content').append('<p id="aede_result">'+result+'</p>');
+      },
+      resetConfig = function () {
+         $.each(defaults_general, function (key, value) {
+            GM_setValue(key, value);
+         });
+         $.each(defaults_modules, function (key, value) {
+            GM_setValue(key, value);
+         });
+      },
+      checkConfig = function () {
+         $.each(defaults_general, function (key, value) {
+            if (typeof GM_getValue(key) == 'undefined') {
+               GM_setValue(key, value);
+            }
+         });
+         $.each(defaults_modules, function (key, value) {
+            if (typeof GM_getValue(key) == 'undefined')
+               GM_setValue(key, value);
+         });
       };
-
-
 
    checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
+
+   checkConfig();
+
+   if (document.location.href == 'http://pykiss.github.io/anti-AEDE/') {
+      aedeConfig();
+   }
+
 
    $('body').append(tooltip);
    $(document).mousemove(function (event) {
       tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
    });
+
+
 
 });
