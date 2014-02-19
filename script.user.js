@@ -295,6 +295,7 @@ $(function () {
    }
 
    function preCheckAEDE(element, link, i) {
+      if (typeof link == 'undefined') return;
       setTimeout(function () {
          checkAEDE(element, link);
       }, i * 10);
