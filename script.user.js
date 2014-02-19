@@ -1,14 +1,16 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     0.6.6
+// @version     0.6
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
-// @copyright   Antonio Fernández Porrúa. Liberado bajo los términos de GPL
+// @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
 // @grant      GM_log
 // ==/UserScript==
+
+
 $(function () {
 
    var aede = [
@@ -247,43 +249,35 @@ $(function () {
       'wradio.com.mx',
       'wradio690.com',
 
-   ];
+   ],
+      tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
 
-   var tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>');
-   $('body').append(tooltip);
-
-   checkForAEDELinks();
-   setInterval(checkForAEDELinks, 2000);
-
-   function checkForAEDELinks() {
-      if (domain() == 'meneame.net') {
-
+      meneame = function(){
          // Menéame
          $('span.showmytitle').each(function (i) {
             var title = this.title,
                element = $(this).parents('.news-body');
             preCheckAEDE(element, title, i);
          });
-         $('input#url').keypress(function () {
-            var that = this;
-            $.each(aede, function (i, regex) {
-               if (regex.test(that.val())) {
-                  that.css('border', '2px solid red');
-                  return false;
-               }
-            });
+         $('input#url').bind('input', function () {
+            var that = $(this);
+            if(isAEDE(that.val())){
+               that.css('border', '2px solid red');
+            }else{
+               that.css('border', '1px solid #ddd');
+            }
          });
-
-      } else if (domain() == 'twitter.com') {
-
+      
+      },
+      twitter = function(){
          // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
          $('a.twitter-timeline-link').each(function (i) {
             var title = this.title,
                element = $(this).parents('.stream-item');
             preCheckAEDE(element, title, i);
          });
-
-      } else if (domain() == 'facebook.com') {
+      },
+      facebook = function(){
          $('div.fsm').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
@@ -294,66 +288,82 @@ $(function () {
                element = $(this);
             preCheckAEDE(element, title, i);
          });
-
-      } else {
-
+      },
+      others = function(){
          // Others by @paucapo
          $('a').each(function (i) {
-            var link = $(this),
-               href = link.attr('href'),
-               text = link.text();
-            preCheckAEDE(link, href + ' ' + text, i);
+            var element = $(this),
+               href = element.attr('href');
+            preCheckAEDE(element, href, i);
          });
+      },
 
-      }
-   }
-
-   function preCheckAEDE(element, link, i) {
-      if (typeof link == 'undefined') return;
-      setTimeout(function () {
-         checkAEDE(element, link);
-      }, i * 10);
-   }
-
-   function checkAEDE(element, link) {
-      if (isAEDE(link)) {
-         element.css({
-            'background-color': '#ffe9e9',
-         })
-         /*.css({
-                'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
-                'border-radius': '6px',
-                'margin-bottom': '5px'
-               })*/
-         .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
-      }
-   }
-   $(document).mousemove(function (event) {
-      tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px')
-   });
-
-   function showTooltip(e) {
-      tooltip.show();
-   }
-
-   function hideTooltip() {
-      tooltip.hide();
-   }
-
-   function domain() {
-      var parts = document.domain.split('.');
-      return parts.slice(-2).join('.');
-   }
-
-   function isAEDE(link) {
-      var is = false;
-      $.each(aede, function (i, a) {
-         if (link.indexOf(a) == 0 || link.indexOf('.' + a) >= 0 || link.indexOf('://' + a) >= 0) {
-            is = true;
+      checkForAEDELinks = function () {
+         switch(domain()){
+            case 'meneame.net':
+               meneame();
+            break;
+            case 'twitter.com':
+               twitter();
+            break;
+            case 'facebook.com':
+               facebook();
+            break;
+            default:
+               others();
+            break;
+         }
+      },
+      preCheckAEDE = function(element, url, i) {
+         if(url === undefined){
             return;
          }
-      });
-      return is;
-   }
+         setTimeout(function () {
+            checkAEDE(element, url);
+         }, i * 10);
+      },
+      checkAEDE = function(element, link) {
+         if (isAEDE(link)) {
+            element.css({
+               'background-color': '#ffe9e9',
+            })
+            /*.css({
+                   'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
+                   'border-radius': '6px',
+                   'margin-bottom': '5px'
+                  })*/
+            .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
+         }
+      },
+      showTooltip = function () {
+         tooltip.show();
+      },
+      hideTooltip = function() {
+         tooltip.hide();
+      },
+      domain = function () {
+         var parts = document.domain.split('.');
+         return parts.slice(-2).join('.');
+      },
+      isAEDE = function(link) {
+         var is = false;
+         $.each(aede, function (i, a) {
+            if (link.indexOf(a) === 0 || link.indexOf('.' + a) >= 0 || link.indexOf('://' + a) >= 0) {
+               is = true;
+               return;
+            }
+         });
+         return is;
+      };
+
+
+
+   checkForAEDELinks();
+   setInterval(checkForAEDELinks, 2000);
+
+   $('body').append(tooltip);
+   $(document).mousemove(function (event) {
+      tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
+   });
 
 });
