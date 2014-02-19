@@ -280,7 +280,18 @@ $(function () {
          $('a.twitter-timeline-link').each(function (i) {
             var title = this.title,
                element = $(this).parents('.stream-item');
+            preCheckAEDE(element, title, i);
+         });
 
+      } else if (domain() == 'facebook.com') {
+         $('div.fsm').each(function (i) {
+            var title = $(this).text(),
+               element = $(this).parents('a.shareLink');
+            preCheckAEDE(element, title, i);
+         });
+         $('.userContent a').each(function (i) {
+            var title = $(this).attr('href'),
+               element = $(this);
             preCheckAEDE(element, title, i);
          });
 
