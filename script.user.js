@@ -320,7 +320,7 @@ $(function () {
       if (typeof link == 'undefined') return false;
       var is = false;
       $.each(aede, function (i, a) {
-         if (link.indexOf(a) == 0 || link.indexOf('.'+a) >= 0) {
+         if (link.indexOf(a) == 0 || link.indexOf('.'+a) >= 0 || link.indexOf('://'+a) >= 0) {
             is = true;
             return;
          }
