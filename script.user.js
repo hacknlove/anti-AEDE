@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     0.8.1
+// @version     0.8.2
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -258,7 +258,7 @@ $(function () {
      /^(http(s?):\/\/)?[^\/]*adnradio\.cl(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*aede\.es(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*alfaguara\.com(\/|$)/,
-     /^(http(s?):\/\/)?[^\/]*as\.com(\/|$)/,
+     /^(http(s?):\/\/)?[^\/](.*\.)?as\.com(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*autocasion\.com(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*avanzaentucarrera\.com(\/|$)/,
      /^(http(s?):\/\/)?[^\/]*besame\.fm(\/|$)/,
