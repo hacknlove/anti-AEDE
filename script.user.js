@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     0.6.5
+// @version     0.6.6
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://github.com/pykiss/anti-AEDE/raw/master/script.user.js
@@ -249,6 +249,9 @@ $(function () {
 
    ];
 
+   var tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:#d04544;color:white;padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>');
+   $('body').append(tooltip);
+
    checkForAEDELinks();
    setInterval(checkForAEDELinks, 2000);
 
@@ -258,7 +261,7 @@ $(function () {
          // Menéame
          $('span.showmytitle').each(function (i) {
             var title = this.title,
-               element = $(this).parents('.news-summary');
+               element = $(this).parents('.news-body');
             preCheckAEDE(element, title, i);
          });
          $('input#url').keypress(function () {
@@ -276,7 +279,7 @@ $(function () {
          // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
          $('a.twitter-timeline-link').each(function (i) {
             var title = this.title,
-               element = $(this).parents('.js-tweet-text');
+               element = $(this).parents('.stream-item');
 
             preCheckAEDE(element, title, i);
          });
@@ -304,11 +307,26 @@ $(function () {
    function checkAEDE(element, link) {
       if (isAEDE(link)) {
          element.css({
+            'background-color': '#ffe9e9',
+         })
+         /*.css({
                 'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
                 'border-radius': '6px',
                 'margin-bottom': '5px'
-               });
+               })*/
+         .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
       }
+   }
+   $(document).mousemove(function (event) {
+      tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px')
+   });
+
+   function showTooltip(e) {
+      tooltip.show();
+   }
+
+   function hideTooltip() {
+      tooltip.hide();
    }
 
    function domain() {
@@ -317,10 +335,9 @@ $(function () {
    }
 
    function isAEDE(link) {
-      if (typeof link == 'undefined') return false;
       var is = false;
       $.each(aede, function (i, a) {
-         if (link.indexOf(a) == 0 || link.indexOf('.'+a) >= 0 || link.indexOf('://'+a) >= 0) {
+         if (link.indexOf(a) == 0 || link.indexOf('.' + a) >= 0 || link.indexOf('://' + a) >= 0) {
             is = true;
             return;
          }
