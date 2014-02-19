@@ -4,13 +4,12 @@
 // @version     0.7.2
 // @description  marcar en rojo
 // @include     *
-// @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
+// @updateURL   https://https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
 // @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
 // @grant       GM_getValue
 // @grant 	    GM_setValue
 // ==/UserScript==
-
 $(function () {
 
    var defaults_general = {
@@ -327,7 +326,7 @@ $(function () {
       others = function () {
          // Others by @paucapo
          $('a').not('.aede-on').each(function (i) {
-            var title = $(this).attr('href'),
+            var title = $(this).attr('href')+' '+$(this).text(),
                element = $(this);
             preCheckAEDE(element, title, i);
             $(this).addClass('aede-on');
