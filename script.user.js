@@ -294,7 +294,7 @@ $(function () {
          $('a').each(function (i) {
             var element = $(this),
                href = element.attr('href');
-            preCheckAEDE(link, href, i);
+            preCheckAEDE(element, href, i);
          });
       },
 
