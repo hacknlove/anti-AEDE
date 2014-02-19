@@ -300,7 +300,7 @@ $(function () {
          });
       },
       facebook = function () {
-         // Google by @paucapo
+         // Facebook by @paucapo
          $('div.fsm').not('.aede-on').each(function (i) {
             var title = $(this).text(),
                element = $(this).parents('a.shareLink');
@@ -308,7 +308,7 @@ $(function () {
             $(this).addClass('aede-on');
          });
          $('.userContent a').not('.aede-on').each(function (i) {
-            var title = $(this).attr('href'),
+            var title = $(this).text(),
                element = $(this);
             preCheckAEDE(element, title, i);
             $(this).addClass('aede-on');
@@ -363,12 +363,12 @@ $(function () {
          */
       },
       preCheckAEDE = function (element, url, i) {
-         if (url === undefined) {
+         if (typeof url === undefined) {
             return;
          }
          setTimeout(function () {
             checkAEDE(element, url);
-         }, i * 10);
+         }, i * 20);
       },
       checkAEDE = function (element, link) {
          if (isAEDE(link)) {
