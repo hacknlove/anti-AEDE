@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.2
+// @version     1.0.2.1
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -249,6 +249,7 @@
       'wradio.com.co',
       'wradio.com.mx',
       'wradio690.com',
+      'abecedesevilla.com',
  */
 
 $(function () {
@@ -490,7 +491,7 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.co(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.mx(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio690\.com(\/|$)/,
-     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)abecedesevilla.com(\/|$)/,
+     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)abecedesevilla\.com(\/|$)/,
    ],
    defaults_general = {
       background: '#ffe9e9',
