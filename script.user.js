@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.0
+// @version     1.0.1
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -493,6 +493,8 @@ $(function () {
    ],
    defaults_general = {
       background: '#ffe9e9',
+      background_gradient: '#ffe9e9',
+      background_radius: '5',
       tooltip_background: '#d04544',
       tooltip_text: '#fff',
    },
@@ -504,7 +506,9 @@ $(function () {
          others: true,
       },
       labels = {
-         background: 'Color de fondo',
+         background: 'Color de fondo (empieza por)',
+         background_gradient: 'Color de fondo (termina en)',
+         background_radius: 'Redondear los cantos (píxels)',
          tooltip_background: 'Color de fondo del tooltip',
          tooltip_text: 'Color del texto del tooltip',
          meneame: 'Menéame',
@@ -513,8 +517,15 @@ $(function () {
          google: 'Google (sólo funciona en google.es, se tiene que solucionar)',
          others: 'Todas las páginas',
       },
-      tooltip = $('<span id="aede-tooltip" style="position: absolute;display:none;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
+      general_types = {
+         background: 'color',
+         background_gradient: 'color',
+         background_radius: 'number',
+         tooltip_background: 'color',
+         tooltip_text: 'color',
+      },
       firstime = true,
+      tooltip = false,
 
       meneame = function () {
          // Menéame
@@ -568,8 +579,14 @@ $(function () {
             var title = $(this).text(),
                element = $(this).parents('div.mvm');
             preCheckAEDE(element, title, i, {
-               display: 'block'
+               display: 'block',
             });
+            $(this).addClass('aede-on');
+         });
+         $('div.storyInnerWrapper span.caption').not('.aede-on').each(function (i) {
+            var title = $(this).text(),
+               element = $(this).parents('div.shareRedesignContainer');
+            preCheckAEDE(element, title, i);
             $(this).addClass('aede-on');
          });
       },
@@ -619,13 +636,16 @@ $(function () {
       },
       checkAEDE = function (element, link, extraCss) {
          css = {
-            'background-color': GM_getValue('background')
+            'background-color': GM_getValue('background'),
+            'background-image': 'linear-gradient(0deg, '+GM_getValue('background')+','+GM_getValue('background_gradient')+')',
+            'border-radius': GM_getValue('background_radius')+'px',
          };
          if (typeof extraCss != 'undefined') {
             $.extend(css, extraCss);
          }
          if (isAEDE(link)) {
-            element.css(css)
+            element
+               .css(css)
                .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
 
                   //Por petición de malaguer mantengo esto aquí, para que pueda descomentarlo y tener el estilo con degradado
@@ -637,10 +657,12 @@ $(function () {
          }
       },
       showTooltip = function () {
-         tooltip.show();
+         tooltip = $('<span id="aede-tooltip" style="position: absolute;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
+         $('body').append(tooltip);
       },
       hideTooltip = function () {
-         tooltip.hide();
+         tooltip.remove();
+         tooltip = false;
       },
       domain = function () {
          var parts = document.domain.split('.');
@@ -665,7 +687,7 @@ $(function () {
 
          config += '<h2>General</h2>';
          $.each(defaults_general, function (key, value) {
-            config += '<p><label for="aede_' + key + '">' + labels[key] + ':</label> <input type="text" id="aede_' + key + '" value="' + GM_getValue(key) + '" class="color"></p>';
+            config += '<p><label for="aede_' + key + '">' + labels[key] + ':</label> <input type="text" id="aede_' + key + '" value="' + GM_getValue(key) + '" class="'+general_types[key]+'"></p>';
          });
 
          config += '<h2>Módulos</h2>';
@@ -746,10 +768,9 @@ $(function () {
       aedeConfig();
    }
 
-
-   $('body').append(tooltip);
    $(document).mousemove(function (event) {
-      tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
+      if (tooltip)
+         tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
    });
 
 

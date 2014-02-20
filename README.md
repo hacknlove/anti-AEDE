@@ -11,4 +11,3 @@ Si encontraís algun bug o teneís alguna propuesta podeis usar el apartado de I
 
 ## Configuración 
 [Configurar apariencia y funcionamiento](http://pykiss.github.io/anti-AEDE/)
-*impresionante trabajo de Pau Capo*
