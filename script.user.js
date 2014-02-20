@@ -649,13 +649,6 @@ $(function () {
             element
                .css(css)
                .on('mouseenter', showTooltip).on('mouseleave', hideTooltip);
-
-                  //Por petición de malaguer mantengo esto aquí, para que pueda descomentarlo y tener el estilo con degradado
-            /*.css({
-                   'background-image': 'linear-gradient(0deg, rgba(255,50,50,1),rgba(255,100,0,0.5))',
-                   'border-radius': '6px',
-                   'margin-bottom': '5px'
-                  })*/
          }
       },
       showTooltip = function () {
