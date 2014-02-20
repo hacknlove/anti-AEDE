@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.1
+// @version     1.0.2
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -490,6 +490,7 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.co(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio\.com\.mx(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)wradio690\.com(\/|$)/,
+     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)abecedesevilla.com(\/|$)/,
    ],
    defaults_general = {
       background: '#ffe9e9',
@@ -637,7 +638,7 @@ $(function () {
       checkAEDE = function (element, link, extraCss) {
          css = {
             'background-color': GM_getValue('background'),
-            'background-image': 'linear-gradient(0deg, '+GM_getValue('background')+','+GM_getValue('background_gradient')+')',
+            'background-image': 'linear-gradient(0deg, '+GM_getValue('background_gradient')+','+GM_getValue('background')+')',
             'border-radius': GM_getValue('background_radius')+'px',
          };
          if (typeof extraCss != 'undefined') {
