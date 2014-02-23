@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.2.1
+// @version     1.0.3
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -81,7 +81,6 @@
       'eleconomista.es',
       'elmundo.es',
       'elnortedecastilla.es',
-      'elpais.com.uy',
       'elmun.do',
       'elpais.com',
       'elpais.es',
@@ -323,7 +322,6 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)eleconomista\.es(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elmundo\.es(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elnortedecastilla\.es(\/|$)/,
-//     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elpais\.com\.uy(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elmun\.do(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elpais\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)elpais\.es(\/|$)/,
@@ -548,6 +546,7 @@ $(function () {
            });
            firstime=false;
          }
+         others();
       
       },
       twitter = function () {
