@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.3
+// @version     1.0.4
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -546,7 +546,11 @@ $(function () {
            });
            firstime=false;
          }
-         others();
+         $('.comment-body>a').each(function(i){
+            var title = $(this).attr('href'),
+               element = $(this).parent();
+            preCheckAEDE(element, title, i);
+          });
       
       },
       twitter = function () {
@@ -621,6 +625,8 @@ $(function () {
             break;
             case 'facebook.com':
                GM_getValue('facebook') && facebook();
+            break;
+            case 'imgur.com':
             break;
             default:
                GM_getValue('others') && others();
@@ -763,8 +769,9 @@ $(function () {
    }
 
    $(document).mousemove(function (event) {
-      if (tooltip)
+      if (tooltip){
          tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
+      }
    });
 
 
