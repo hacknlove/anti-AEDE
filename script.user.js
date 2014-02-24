@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.4
+// @version     1.0.4.1
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -127,6 +127,7 @@
       'inverycrea.net',
       'kebuena.com.mx',
       'lavallenata.com',
+      'lagaceta.es',
       'lagacetadesalamanca.es',
       'laguiatv.com',
       'lalistawip.com',
@@ -369,6 +370,7 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)kebuena\.com\.mx(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)lavallenata\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)lagacetadesalamanca\.es(\/|$)/,
+     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)lagaceta\.es(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)laguiatv\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)lalistawip\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)laopinioncoruna\.es(\/|$)/,
