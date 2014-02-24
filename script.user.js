@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     1.0.4.1
+// @version     1.0.4.2
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -105,6 +105,7 @@
       'fundacaosantillana.com',
       'fundacaosantillana.com.br',
       'fundacaosantillana.org.co',
+      'gaceta.es',
       'galiciae.com',
       'globaliza.com',
       'grada360.com',
@@ -347,6 +348,7 @@ $(function () {
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)fundacaosantillana\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)fundacaosantillana\.com\.br(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)fundacaosantillana\.org\.co(\/|$)/,
+     /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)gceta\.es(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)galiciae\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)globaliza\.com(\/|$)/,
      /(^|(^[^\/]*\.)|(^http(s?):\/\/)|(^http(s?):\/\/)[^\/]*\.)grada360\.com(\/|$)/,
