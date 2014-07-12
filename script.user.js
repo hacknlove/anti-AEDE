@@ -161,7 +161,7 @@ $(function () {
     $('a').not('.anti-aede-checked').each(function (i) {
       var title = $(this).attr('href') + ' ' + $(this).text(),
       element = $(this);
-      preCheckElement(element, title, i);
+      preCheckElement(regexps, element, title, i);
     }).addClass('anti-aede-checked');
   },
 
