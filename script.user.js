@@ -19,7 +19,9 @@
 $(function () {
 
   var parseList = function(list){
-    return list.split('\n');
+    return list.split('\n').filter(function(domain){
+      return domain.length!==0;
+    });
   },
   
   generateRegExp = function(list){
@@ -96,9 +98,12 @@ $(function () {
   
   meneame = function (regexps) {
    $('span.showmytitle').not('.anti-aede-checked').each(function (i) {
-      var title = this.title,
-      element = $(this).parents('.news-body');        
-      preCheckElement(regexps, element, title, i);
+      var title = this.title
+      element = $(this).parents('.news-body');
+      if(element.length){
+        console.log('showmy');
+        preCheckElement(regexps, element, title, i);
+      }
    }).addClass('anti-aede-checked');
 
    $('.comment-body>a').not('.anti-aede-checked').each(function(i){
@@ -190,14 +195,18 @@ $(function () {
     }
   },
   showTooltip = function () {
-    tooltip = $('<span id="aede-tooltip" style="position: absolute;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>'),
-    $('body').append(tooltip);
-    $(document).on('mousemove', tooltipMove);
+    if(!tooltip){
+      tooltip = $('<span id="aede-tooltip" style="position: absolute;background:' + GM_getValue('tooltip_background') + ';color:' + GM_getValue('tooltip_text') + ';padding:5px;border-radius:4px;z-index:100000">AEDE alert!</span>');
+      $('body').append(tooltip);
+      $(document).on('mousemove', tooltipMove);
+    }
   },
   hideTooltip = function () {
-    tooltip.remove();
-    tooltip = false;
-    $(document).off('mousemove', tooltipMove);
+    if(tooltip){
+      tooltip.remove();
+      tooltip = false;
+      $(document).off('mousemove', tooltipMove);
+    }
   },
   tooltipMove = function(event){
     tooltip.css('top', (event.pageY + 10) + 'px').css('left', (event.pageX + 10) + 'px');
