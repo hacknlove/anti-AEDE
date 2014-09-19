@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       anti AEDE
 // @namespace   http://www.meneame.net/
-// @version     2.0.0.0
+// @version     2.0.0.1
 // @description  marcar en rojo
 // @include     *
 // @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
@@ -18,6 +18,9 @@
 
 $(function () {
 
+  var contador=1 // Contador de las comprobaciones de los links
+  var checklinksinterval; //Variable global que guarda el numero del setInterval() para poder pararlo.
+  
   var parseList = function(list){
     return list.split('\n').filter(function(domain){
       return domain.length!==0;
@@ -39,9 +42,12 @@ $(function () {
     
     checkForLinks(regexps);
 
-    setInterval(function(){
+    checklinksinterval = setInterval(function() {
       checkForLinks(regexps);
-    }, 2000);
+      if(contador++ >= GM_getValue('number_iterations')) {
+        clearInterval(checklinksinterval);
+      }
+    }, GM_getValue('time2checklinks'));
 
   },
 
@@ -227,6 +233,8 @@ $(function () {
       background_radius: '5',
       tooltip_background: '#d04544',
       tooltip_text: '#fff',
+      number_iterations: '10',
+      time2checklinks: '2000',
    },
   defaults_modules = {
      meneame: true,
@@ -247,6 +255,8 @@ $(function () {
      facebook: 'Facebook',
      google: 'Google (sólo funciona en google.es, se tiene que solucionar)',
      others: 'Todas las páginas',
+     number_iterations: 'Nº comprobaciones',
+     time2checklinks: 'Tiempo entre comprobaciones(en ms)',
   },
   general_types = {
      background: 'color',
@@ -254,6 +264,8 @@ $(function () {
      background_radius: 'number',
      tooltip_background: 'color',
      tooltip_text: 'color',
+     number_iterations: 'number',
+     time2checklinks: 'number',
   },
   tooltip = false,
 
