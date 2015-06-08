@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Anti-aede : script para greasemonkey que marca aquellos enlaces que están incluídos en alguna lista de boicot" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>anti-AEDE plus</title>
+  </head>
+  <body>
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <a id="forkme_banner" href="https://github.com/pykiss/anti-AEDE">View on GitHub</a>
+        <h1 id="project_title">Anti-aede</h1>
+      </header>
+    </div>
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+         <p>Script para <a href="https://addons.mozilla.org/es/firefox/addon/greasemonkey/">Greasemonkey</a> o <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a> que indica que noticias son de medios de AEDE para facilitar el boicot.</p>
+         <p>Si encontráis algún bug o tenéis alguna propuesta podéis usar el apartado de Issues o Pull Requests de <a href="https://github.com/pykiss/anti-AEDE">Github</a>.</p>
+
+        <h3>Instalación</h3>
+
+        <ul>
+          <li>Instalar <a href="https://addons.mozilla.org/es/firefox/addon/greasemonkey/">Greasemonkey para Firefox</a> o <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey para Chrome/Chromium</a></li>
+          <li>Instalar el anti-AEDE desde <a href="https://github.com/pykiss/anti-AEDE/raw/master/script.user.js">este enlace</a>.</li>
+        </ul>
+
+        <h3>Configuración</h3>
+        <ul>
+          <li>
+            Una vez instalado, en esta misma url, se verá un panel desde el que configurar las listas de boicots.
+          </li>
+        </ul>
+
+      </section>
+      <section id="panel">
+        <ul>
+            <li>
+              Los dominios en los que actuará el script, se configuran desde la configuración de tampermonkey/greasemonkey
+            </li>
+            <li>
+              Para modificar las listas de boicots <i>"oficiales"</i> hay que hacer un pull request en el repositorio de anti-AEDE
+            </li>
+            <li>
+              Para utilizar listas particulares, necesitas que sean accesibles mediante alguna url.
+            </li>
+
+        </ul>
+      </section>
+    </div>
+
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Anti-aede maintained by <a href="https://github.com/pykiss">pykiss</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+   
+
+  </body>
+</html>

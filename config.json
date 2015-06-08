@@ -1,0 +1,12 @@
+{
+  "lists":{
+    "anti-aede":{
+      "url": "http://pykiss.github.io/anti-AEDE/domains.list",
+      "css":"file:///home/pykiss/git/anti-AEDE-web/anti-aede.css"
+    },
+    "drya":{
+      "url":"file:///home/pykiss/git/anti-AEDE-web/drya.list",
+      "css":"file:///home/pykiss/git/anti-AEDE-web/drya.css"
+    }
+  },
+}
