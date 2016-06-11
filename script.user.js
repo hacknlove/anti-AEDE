@@ -97,32 +97,32 @@ $(function () {
   },  
   
   meneame = function (regexps) {
-   $('span.showmytitle').not('.anti-aede-checked').each(function (i) {
+   $('span.showmytitle').not('[data-anti-aede-checked]').each(function (i) {
       var title = this.title
       element = $(this).parents('.news-body');
       if(element.length){
-        console.log('showmy');
+        //console.log('showmy');
         preCheckElement(regexps, element, title, i);
       }
-   }).addClass('anti-aede-checked');
+   }).attr('data-anti-aede-checked', '');
 
-   $('.comment-body>a').not('.anti-aede-checked').each(function(i){
+   $('.comment-body>a').not('[data-anti-aede-checked]').each(function(i){
       var title = $(this).attr('href'),
       element = $(this).parent();
       preCheckElement(regexps, element, title, i);
-    }).addClass('anti-aede-checked');
+    }).attr('data-anti-aede-checked', '');
   },
   twitter = function (regexps) {
    // Twitter by @Hanxxs http://pastebin.com/f04tPcsG
-   $('a.twitter-timeline-link').not('.anti-aede-checked').each(function (i) {
+   $('a.twitter-timeline-link').not('[data-anti-aede-checked]').each(function (i) {
       var title = this.title,
       element = $(this).parents('.stream-item');
       preCheckElement(regexps, element, title, i);
-   }).addClass('anti-aede-checked');
+   }).attr('data-anti-aede-checked', '');
   },
   facebook = function (regexps) {
     // Facebook by @paucapo
-    $('div.fsm').not('.anti-aede-checked').each(function (i) {
+    $('div.fsm').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).text(),
       element = $(this).parents('a.shareLink');
       preCheckElement(regexps, element, title, i, {
@@ -130,7 +130,7 @@ $(function () {
       });
     }).addClass('aede-on');
 
-    $('.userContent a').not('.anti-aede-checked').each(function (i) {
+    $('.userContent a').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).text(),
       element = $(this);
       preCheckElement(regexps, element, title, i, {
@@ -138,36 +138,36 @@ $(function () {
       });
     }).addClass('aede-on');
 
-    $('div.userContentWrapper div.fcg').not('.anti-aede-checked').each(function (i) {
+    $('div.userContentWrapper div.fcg').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).text(),
       element = $(this).parents('div.mvm');
       preCheckElement(regexps, element, title, i, {
         display: 'block',
       });
-    }).addClass('anti-aede-checked');
+    }).attr('data-anti-aede-checked', '');
 
-    $('div.storyInnerWrapper span.caption').not('.anti-aede-checked').each(function (i) {
+    $('div.storyInnerWrapper span.caption').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).text(),
       element = $(this).parents('div.shareRedesignContainer');
       preCheckElement(regexps, element, title, i);
-    }).addClass('anti-aede-checked');
+    }).attr('data-anti-aede-checked', '');
   },
 
   google = function (regexps) {
     // Google by @paucapo
-    $('a').not('.anti-aede-checked').each(function (i) {
+    $('a').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).attr('href'),
       element = $(this).parents('li.g');
       preCheckElement(regexps, element, title, i);
-    }).addClass('anti-aede-checked');
+    }).attr('data-anti-aede-checked', '');
   },
   others = function (regexps) {
     // Others by @paucapo
-    $('a').not('.anti-aede-checked').each(function (i) {
+    $('a').not('[data-anti-aede-checked]').each(function (i) {
       var title = $(this).attr('href') + ' ' + $(this).text(),
       element = $(this);
       preCheckElement(regexps, element, title, i);
-    }).addClass('anti-aede-checked');
+    }).attr('data-anti-aede-checked', '');
   },
 
   preCheckElement = function (regexps, element, url, i, extraCss) {
