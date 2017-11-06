@@ -356,7 +356,7 @@ $(function () {
 
   checkConfig();
 
-  if (document.location.href == 'http://pykiss.github.io/anti-AEDE/') {
+  if (document.location.href == 'http://hacknlove.github.io/anti-AEDE/') {
     aedeConfig();
   }else{
     GM_xmlhttpRequest({
