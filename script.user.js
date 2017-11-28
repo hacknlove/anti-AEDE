@@ -4,10 +4,10 @@
 // @version     2.0.0.1
 // @description  marcar en rojo
 // @include     *
-// @updateURL   https://raw.github.com/pykiss/anti-AEDE/master/script.user.js
+// @updateURL   https://raw.github.com/hacknlove/anti-AEDE/master/script.user.js
 // @copyright   Antonio Fernández Porrúa. Pau Capó. Licencia     GPL
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js
-// @require     http://pykiss.github.io/anti-AEDE/javascripts/jquery.minicolors.js
+// @require     http://hacknlove.github.io/anti-AEDE/javascripts/jquery.minicolors.js
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
